@@ -1,0 +1,191 @@
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #9fa2ab;
+  display: flex;
+  justify-content: center;
+}
+
+.app {
+  width: 100%;
+  max-width: 420px;
+  background: #f6f6f6;
+  min-height: 100vh;
+}
+
+/* Header */
+.header {
+  background: #f6d22d;
+  color: #fff;
+  padding: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo { font-weight: 700; }
+
+/* Title */
+.title {
+  background: #f6d22d;
+  padding: 20px 16px;
+  color: #fff;
+}
+
+.title h2 { margin: 0 0 8px; }
+.title p { font-size: 12px; line-height: 1.4; }
+
+/* Tabs */
+.tabs {
+  display: flex;
+  background: #fff;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 12px;
+  font-size: 14px;
+  color: #999;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+}
+
+.tab.active {
+  color: #f6d22d;
+  border-bottom: 2px solid #f6d22d;
+}
+
+/* Form */
+.form {
+  background: #fff;
+  padding: 16px;
+}
+
+label {
+  font-size: 13px;
+  display: block;
+  margin: 14px 0 6px;
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  background: #f3f3f3;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.country {
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+input {
+  border: none;
+  background: transparent;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+}
+
+.eye {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+/* Tabs content */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Remember */
+/* কন্টেইনার স্টাইল */
+.remember-me-container {
+  display: flex;
+  align-items: center;
+  font-family: Arial, sans-serif; /* ফন্ট স্টাইল */
+  margin: 8px 0;
+}
+
+/* ডিফল্ট চেকবক্সটি লুকিয়ে ফেলা */
+.remember-me-container input[type="checkbox"] {
+  display: none;
+}
+
+/* লেবেল এবং টেক্সট স্টাইল */
+.remember-me-container label {
+  position: relative;
+  padding-left: 17px; /* গোল বক্সের জন্য জায়গা রাখা */
+  cursor: pointer;
+  color: #7a869a; /* টেক্সটের ধূসর রঙ */
+  font-size: 12px;
+  user-select: none;
+}
+
+/* গোল বক্স তৈরি করা (কাস্টম চেকবক্স) */
+.remember-me-container label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;  /* বক্সের প্রস্থ */
+  height: 12px; /* বক্সের উচ্চতা */
+  border: 1px solid #ccc; /* বর্ডার কালার */
+  border-radius: 50%; /* 50% দিলে বক্সটি গোল হবে */
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+/* যখন চেক করা হবে (Optional: সিলেক্ট করলে হলুদ হওয়ার জন্য) */
+.remember-me-container input[type="checkbox"]:checked + label::before {
+  background-color: #fdd835; /* থিমের হলুদ রঙ */
+  border-color: #fdd835;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="14" viewBox="0 0 24 24" width="14" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+
+/* Buttons */
+.btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 999px;
+  font-size: 16px;
+  margin-top: 14px;
+  cursor: pointer;
+}
+
+.login {
+  background: #f6d22d;
+  border: none;
+  color: #fff;
+}
+
+.register {
+  background: #fff;
+  border: 2px solid #f6d22d;
+  color: #f6d22d;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px 0;
+  font-size: 12px;
+  background: #f6f6f6;
+}
+
+.footer-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}

@@ -1,0 +1,14 @@
+{
+  "name": "dkwin-login",
+  "version": "1.0.0",
+  "description": "DKWIN Login Page",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^4.22.1",
+    "mongodb": "^7.0.0"
+  }
+}

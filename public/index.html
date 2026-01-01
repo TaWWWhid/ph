@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DKWIN Login</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+<div class="app">
+
+  <!-- Header -->
+  <div class="header">
+    <span class="back">←</span>
+    <div class="logo">DKWIN</div>
+    <div class="lang">🇺🇸 EN</div>
+  </div>
+
+  <!-- Title -->
+  <div class="title">
+    <h2>Log in</h2>
+    <p>
+      Please log in with your phone number or email<br>
+      If you forget your password, please contact customer service
+    </p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" data-tab="phone">📱 phone number</div>
+    <div class="tab" data-tab="email">✉️ Email Login</div>
+  </div>
+
+  <!-- Form -->
+  <div class="form">
+
+    <!-- Phone -->
+    <div class="tab-content active" id="phone">
+      <label>Phone number</label>
+      <div class="input-row">
+        <div class="country">+880</div>
+        <input type="text" id="phone-input" placeholder="Phone number" />
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="tab-content" id="email">
+      <label>Mail</label>
+      <div class="input-row">
+        <input type="email" id="email-input" placeholder="please input your email" />
+      </div>
+    </div>
+
+    <!-- Password -->
+    <label>Password</label>
+    <div class="input-row">
+      <input type="password" id="password" placeholder="Password" />
+      <span class="eye" id="togglePassword">👁️</span>
+    </div>
+    <div class="remember-me-container">
+  <input type="checkbox" id="remember-pass">
+  
+  <label for="remember-pass">Remember password</label>
+</div>
+
+
+
+
+    <!-- Buttons -->
+    <button class="btn login" id="loginButton">Log in</button>
+    <button class="btn register">Register</button>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-item">
+      🔒
+      <span>Forgot password</span>
+    </div>
+    <div class="footer-item">
+      😊
+      <span>Customer Service</span>
+    </div>
+  </div>
+
+</div>
+
+<script src="/src/script.js"></script>
+</body>
+</html>
